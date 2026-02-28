@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Cyber Quiz</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h2>AI Cyber Awareness</h2>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="attacks.html">Types</a>
+        <a href="cases.html">Case Studies</a>
+        <a href="prevention.html">Prevention</a>
+        <a href="quiz.html">Quiz</a>
+    </nav>
+    <button onclick="toggleDarkMode()" id="themeBtn">🌙</button>
+</header>
+
+<div class="container">
+
+<div class="card">
+    <h3>Cyber Security Quiz</h3>
+
+    <p id="question"></p>
+    <div id="options"></div>
+
+    <p id="result"></p>
+    <p id="score"></p>
+
+    <button id="nextBtn" onclick="nextQuestion()" style="display:none;">Next Question</button>
+</div>
+
+</div>
+
+<footer>
+    Test Your Knowledge.
+</footer>
+
+<script>
+
+let questions = [
+    {
+        question: "1. What is phishing?",
+        options: ["A fake email attack", "A type of fish", "A game", "A browser"],
+        correct: 0
+    },
+    {
+        question: "2. What is malware?",
+        options: ["Harmful software", "Computer monitor", "Keyboard shortcut", "Printer error"],
+        correct: 0
+    },
+    {
+        question: "3. Strong password should contain?",
+        options: ["Only numbers", "Name only", "Letters, numbers & symbols", "Birthdate"],
+        correct: 2
+    },
+    {
+        question: "4. What does HTTPS mean?",
+        options: ["Secure website connection", "Fast website", "Offline website", "Gaming site"],
+        correct: 0
+    },
+    {
+        question: "5. What is ransomware?",
+        options: ["Virus that locks data for money", "Antivirus software", "WiFi device", "Cloud storage"],
+        correct: 0
+    },
+    {
+        question: "6. Public WiFi can be?",
+        options: ["Always safe", "Risky for banking", "Faster than LAN", "Government owned"],
+        correct: 1
+    },
+    {
+        question: "7. Two-factor authentication provides?",
+        options: ["Extra security layer", "Faster login", "Free internet", "More storage"],
+        correct: 0
+    },
+    {
+        question: "8. Social engineering attacks target?",
+        options: ["Hardware", "Human psychology", "Cables", "Servers only"],
+        correct: 1
+    },
+    {
+        question: "9. Antivirus software helps to?",
+        options: ["Decorate desktop", "Remove threats", "Increase RAM", "Upgrade CPU"],
+        correct: 1
+    },
+    {
+        question: "10. Updating software is important because?",
+        options: ["Adds security patches", "Slows computer", "Deletes files", "Changes wallpaper"],
+        correct: 0
+    }
+];
+
+let currentQuestion = 0;
+let score = 0;
+
+function loadQuestion() {
+    let q = questions[currentQuestion];
+    document.getElementById("question").innerHTML = q.question;
+
+    let optionsDiv = document.getElementById("options");
+    optionsDiv.innerHTML = "";
+
+    q.options.forEach((option, index) => {
+        optionsDiv.innerHTML += 
+        `<button onclick="checkAnswer(${index})">${option}</button><br><br>`;
+    });
+
+    document.getElementById("result").innerHTML = "";
+    document.getElementById("nextBtn").style.display = "none";
+}
+
+function checkAnswer(answer) {
+    let result = document.getElementById("result");
+
+    if(answer === questions[currentQuestion].correct) {
+        result.innerHTML = "✅ Correct Answer!";
+        result.style.color = "green";
+        score++;
+    } else {
+        result.innerHTML = "❌ Wrong Answer!";
+        result.style.color = "red";
+    }
+
+    document.getElementById("score").innerHTML = 
+        "Score: " + score + " / " + questions.length;
+
+    document.getElementById("nextBtn").style.display = "inline-block";
+}
+
+function nextQuestion() {
+    currentQuestion++;
+
+    if(currentQuestion < questions.length) {
+        loadQuestion();
+    } else {
+        document.querySelector(".card").innerHTML =
+            "<h3>Quiz Completed!</h3>" +
+            "<p>Your Final Score: " + score + " / " + questions.length + "</p>" +
+            "<button onclick='restartQuiz()'>Restart Quiz</button>";
+    }
+}
+
+function restartQuiz() {
+    currentQuestion = 0;
+    score = 0;
+    location.reload();
+}
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>
